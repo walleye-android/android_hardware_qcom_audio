@@ -648,6 +648,7 @@ int enable_snd_device(struct audio_device *adev,
             ALOGE(" %s: Invalid sound device returned", __func__);
             goto on_error;
         }
+
 #ifdef PLATFORM_MSM8960
         /*
          * For some unknown reason, the device name gets empty for
@@ -1259,9 +1260,11 @@ int start_input_stream(struct stream_in *in)
     struct audio_usecase *uc_info;
     struct audio_device *adev = in->dev;
 
+#ifndef NO_CAPTURE_FM_MODE
     int usecase = platform_update_usecase_from_source(in->source,in->usecase);
     if (get_usecase_from_list(adev, usecase) == NULL)
         in->usecase = usecase;
+#endif
 
     ALOGD("%s: enter: stream(%p)usecase(%d: %s)",
           __func__, &in->stream, in->usecase, use_case_table[in->usecase]);
