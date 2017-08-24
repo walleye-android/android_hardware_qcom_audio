@@ -76,7 +76,13 @@ ifdef MULTIPLE_HW_VARIANTS_ENABLED
   LOCAL_SRC_FILES +=  $(AUDIO_PLATFORM)/hw_info.c
 endif
 
+ifeq ($(strip $(AUDIO_FEATURE_ENABLED_USB_TUNNEL)),true)
+    LOCAL_CFLAGS += -DUSB_TUNNEL_ENABLED
+    LOCAL_SRC_FILES += audio_extn/usb.c
+endif
+
 LOCAL_SHARED_LIBRARIES := \
+	libaudioutils \
 	liblog \
 	libcutils \
 	libtinyalsa \
@@ -127,6 +133,10 @@ ifeq ($(strip $(BOARD_SUPPORTS_SOUND_TRIGGER)),true)
     LOCAL_CFLAGS += -DSOUND_TRIGGER_PLATFORM_NAME=$(TARGET_BOARD_PLATFORM)
     LOCAL_C_INCLUDES += $(TARGET_OUT_HEADERS)/mm-audio/sound_trigger
     LOCAL_SRC_FILES += audio_extn/soundtrigger.c
+ifneq ($(filter msm8996,$(TARGET_BOARD_PLATFORM)),)
+LOCAL_HEADER_LIBRARIES := sound_trigger.primary_headers
+endif
+
 endif
 
 ifeq ($(strip $(AUDIO_FEATURE_ENABLED_SPKR_PROTECTION)),true)
@@ -156,6 +166,12 @@ LOCAL_MODULE := audio.primary.$(TARGET_BOARD_PLATFORM)
 LOCAL_MODULE_RELATIVE_PATH := hw
 
 LOCAL_MODULE_TAGS := optional
+
+LOCAL_MODULE_OWNER := qcom
+
+LOCAL_PROPRIETARY_MODULE := true
+
+LOCAL_CFLAGS += -Werror
 
 include $(BUILD_SHARED_LIBRARY)
 

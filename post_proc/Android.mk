@@ -20,6 +20,8 @@ LOCAL_SHARED_LIBRARIES := \
 	libtinyalsa
 
 LOCAL_MODULE_TAGS := optional
+LOCAL_MODULE_OWNER := qcom
+LOCAL_PROPRIETARY_MODULE := true
 
 LOCAL_MODULE_RELATIVE_PATH := soundfx
 LOCAL_MODULE:= libqcompostprocbundle
@@ -40,7 +42,7 @@ ifneq ($(filter msm8952 msm8992 msm8994 msm8996 msm8909,$(TARGET_BOARD_PLATFORM)
 
 include $(CLEAR_VARS)
 
-LOCAL_CFLAGS := -DLIB_AUDIO_HAL="/system/lib/hw/audio.primary."$(TARGET_BOARD_PLATFORM)".so"
+LOCAL_CFLAGS := -DLIB_AUDIO_HAL="audio.primary."$(TARGET_BOARD_PLATFORM)".so"
 
 LOCAL_SRC_FILES:= \
 	volume_listener.c
@@ -54,6 +56,8 @@ LOCAL_SHARED_LIBRARIES := \
 
 LOCAL_MODULE_RELATIVE_PATH := soundfx
 LOCAL_MODULE:= libvolumelistener
+LOCAL_MODULE_OWNER := qcom
+LOCAL_PROPRIETARY_MODULE := true
 
 LOCAL_C_INCLUDES := \
         hardware/qcom/audio/hal \
