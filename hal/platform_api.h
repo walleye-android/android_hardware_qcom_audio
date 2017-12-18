@@ -148,4 +148,5 @@ int platform_set_sidetone(struct audio_device *adev,
                           bool enable, char * str);
 int platform_get_mmap_data_fd(void *platform, int dev, int dir,
                               int *fd, uint32_t *size);
+int platform_update_usecase_from_source(int source, audio_usecase_t usecase);
 #endif // AUDIO_PLATFORM_API_H
